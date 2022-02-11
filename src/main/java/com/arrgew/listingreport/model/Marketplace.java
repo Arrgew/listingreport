@@ -1,9 +1,8 @@
 package com.arrgew.listingreport.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -12,13 +11,16 @@ public class Marketplace {
 
     @Id
     @NotNull
+    @JsonProperty("id")
     private Integer id;
 
     @NotNull
     @Column(name="marketplace_name")
+    @JsonProperty("marketplace_name")
     private String name;
 
     @OneToMany(mappedBy = "marketplace")
+    @Transient
     private List<Listing> listings;
 
     //CONSTRUCTOR
@@ -27,6 +29,11 @@ public class Marketplace {
     public Marketplace(Integer id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    public Marketplace(Integer id) {
+        this.id = id;
+        this.name = null;
     }
 
     //GETTERS AND SETTERS
@@ -46,5 +53,14 @@ public class Marketplace {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    //TOSTRING
+
+    @Override
+    public String toString() {
+        return "{id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

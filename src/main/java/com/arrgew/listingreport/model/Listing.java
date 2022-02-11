@@ -1,8 +1,11 @@
 package com.arrgew.listingreport.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -12,96 +15,108 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Entity
-@Validated
 public class Listing {
 
     @Id
+    @Column(name = "id",length = 16, unique = true, nullable = false)
+    @JsonProperty("id")
     @NotNull
-    @Column(name = "id")
     private UUID id;
 
     @NotNull
     @Column(name = "title")
+    @JsonProperty("title")
+    @NotBlank(message = "Name is mandatory")
     private String title;
 
     @NotNull
     @Column(name = "description")
+    @JsonProperty("description")
     private String description;
 
     @ManyToOne
-    @NotNull
     @JoinColumn(name = "location_id")
+    @JsonIgnore
     private Location location;
 
+    @JsonProperty("location_id")
+    @Transient
+    @JsonInclude
+    private UUID locationId;
+
+    @JsonProperty("listing_price")
     @Column(name = "listing_price")
     @NotNull
-    @DecimalMin(value ="0.0",inclusive = false)
-    //@Digits(integer = 10,fraction = 2)
+    @Digits(integer = 10,fraction = 2)
+    @Min(0)
     private BigDecimal listingPrice;
 
     @Column(name = "currency")
     @Length(min = 3, max = 3)
     @NotNull
+    @NotBlank(message = "Name is mandatory")
     private String currency;
 
     @Column(name = "quantity")
-    @Min(1)
+    @Min(0)
     @NotNull
     private Integer quantity;
 
     @ManyToOne
     @JoinColumn(name = "listing_status_id")
-    @NotNull
+    @JsonIgnore
     private ListingStatus listingStatus;
+
+    @JsonProperty("listing_status")
+    @Transient
+    @JsonInclude
+    private Integer listingStatusId;
 
     @ManyToOne
     @JoinColumn(name = "marketplace_id")
-    @NotNull
+    @JsonIgnore
     private Marketplace marketplace;
 
+    @JsonProperty("marketplace")
+    @Transient
+    @JsonInclude
+    private Integer marketplaceId;
+
+    @JsonProperty("upload_time")
     @Column(name = "upload_time")
-    @DateTimeFormat(pattern = "dd.MM.yyyy")
+    @DateTimeFormat(pattern="MM/dd/yyyy")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="MM/dd/yyyy")
     private Date uploadTime;
 
+    @JsonProperty("owner_email_address")
     @Column(name = "owner_email_address")
     @Email
     @NotNull
+    @NotBlank(message = "Name is mandatory")
     private String ownerEmailAddress;
 
     //CONSTRUCTOR
     public Listing(){}
 
-    public Listing(UUID id, String title, String description, UUID locationId, BigDecimal listingPrice, String currency, Integer quantity, Integer listingStatusId, Integer marketplaceId, Date uploadTime, String ownerEmailAddress) {
+    public Listing(UUID id, String title, String description, UUID locationId, String listingPrice, String currency, Integer quantity, Integer listingStatusId, Integer marketplaceId, Date uploadTime, String ownerEmailAddress) {
         this.id = id;
         this.title = title;
         this.description = description;
+        this.locationId = locationId;
         this.location = new Location();
-        this.location.setId(locationId);
-        this.listingPrice = listingPrice;
+        this.listingPrice = new BigDecimal(listingPrice);
         this.currency = currency;
         this.quantity = quantity;
-        this.listingStatus = new ListingStatus();
-        this.listingStatus.setId(listingStatusId);
+        this.listingStatusId = listingStatusId;
+        this.listingStatus =new ListingStatus();
+        this.marketplaceId =marketplaceId;
         this.marketplace = new Marketplace();
-        this.marketplace.setId(marketplaceId);
         this.uploadTime = uploadTime;
         this.ownerEmailAddress = ownerEmailAddress;
     }
 
 
     //GETTERS AND SETTERS
-
-    public Marketplace getMarketplace() {
-        return marketplace;
-    }
-
-    public ListingStatus getListingStatus() {
-        return listingStatus;
-    }
-
-    public Location getLocation() {
-        return location;
-    }
 
     public UUID getId() {
         return id;
@@ -127,16 +142,28 @@ public class Listing {
         this.description = description;
     }
 
+    public Location getLocation() {
+        return location;
+    }
+
     public void setLocation(Location location) {
         this.location = location;
+    }
+
+    public UUID getLocationId() {
+        return locationId;
+    }
+
+    public void setLocationId(UUID locationId) {
+        this.locationId = locationId;
     }
 
     public BigDecimal getListingPrice() {
         return listingPrice;
     }
 
-    public void setListingPrice(BigDecimal listingPrice) {
-        this.listingPrice = listingPrice;
+    public void setListingPrice(String listingPrice) {
+        this.listingPrice = new BigDecimal(listingPrice);
     }
 
     public String getCurrency() {
@@ -155,12 +182,44 @@ public class Listing {
         this.quantity = quantity;
     }
 
+    public ListingStatus getListingStatus() {
+        return listingStatus;
+    }
+
     public void setListingStatus(ListingStatus listingStatus) {
         this.listingStatus = listingStatus;
     }
 
+    public Integer getListingStatusId() {
+        return listingStatusId;
+    }
+
+    public void setListingStatusId(Integer listingStatusId) {
+        this.listingStatusId = listingStatusId;
+    }
+
+    public Marketplace getMarketplace() {
+        return marketplace;
+    }
+
     public void setMarketplace(Marketplace marketplace) {
         this.marketplace = marketplace;
+    }
+
+    public Integer getMarketplaceId() {
+        return marketplaceId;
+    }
+
+    public void setMarketplaceId(Integer marketplaceId) {
+        this.marketplaceId = marketplaceId;
+    }
+
+    public Date getUploadTime() {
+        return uploadTime;
+    }
+
+    public void setUploadTime(Date uploadTime) {
+        this.uploadTime = uploadTime;
     }
 
     public String getOwnerEmailAddress() {
@@ -170,6 +229,7 @@ public class Listing {
     public void setOwnerEmailAddress(String ownerEmailAddress) {
         this.ownerEmailAddress = ownerEmailAddress;
     }
+
 
     //HASHCODE & EQUALS
 
@@ -183,23 +243,23 @@ public class Listing {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, description, location, listingPrice, currency, quantity, listingStatus, marketplace, uploadTime, ownerEmailAddress);
+        return Objects.hash(id, title, description, listingPrice, currency, quantity, uploadTime, ownerEmailAddress);
     }
 
     //TOSTRING
 
     @Override
     public String toString() {
-        return "Listing{" +
+        return "{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
-                ", location=" + location.getId() +
+                ", location=" + location +
                 ", listingPrice=" + listingPrice +
                 ", currency='" + currency + '\'' +
                 ", quantity=" + quantity +
-                ", listingStatus=" + listingStatus.getId() +
-                ", marketplace=" + marketplace.getId() +
+                ", marketplace=" + marketplace +
+                ", listingStatus=" + listingStatus +
                 ", uploadTime=" + uploadTime +
                 ", ownerEmailAddress='" + ownerEmailAddress + '\'' +
                 '}';
