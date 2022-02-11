@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface MarketplaceRepository extends JpaRepository<Marketplace,Integer> {
+    Marketplace findMarketplaceById(Integer id);
 }

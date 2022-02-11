@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ListingStatusRepository extends JpaRepository<ListingStatus,Integer> {
+    ListingStatus findListingStatusById(Integer id);
 }

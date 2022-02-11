@@ -1,0 +1,4 @@
+CREATE DATABASE listings;
+CREATE USER 'listingsconnection'@'localhost' IDENTIFIED BY '1221';
+GRANT ALL PRIVILEGES ON listings.* TO 'listingsconnection'@'localhost';
+//Tables are created by hibernate
