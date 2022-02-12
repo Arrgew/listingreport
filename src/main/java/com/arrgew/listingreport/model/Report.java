@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class Report {
 
-    private final String timePeriod;
+    private String currency;
     private Integer totalListingCount;
     private Integer totalEbayListingCount;
     private BigDecimal totalEbayListingPrice;
@@ -18,10 +18,8 @@ public class Report {
     private final Map<String,Integer> listerEmailAddresses;
 
     //CONSTRUCTOR
-
-
-    public Report(String timePeriod) {
-        this.timePeriod = timePeriod;
+    public Report(String currency) {
+        this.currency = currency;
         this.totalListingCount = 0;
         this.totalEbayListingCount = 0;
         this.totalEbayListingPrice = new BigDecimal(BigInteger.ZERO);
@@ -31,59 +29,80 @@ public class Report {
     }
 
     //TO STRING
-
     @Override
     public String toString() {
-        if(totalEbayListingCount> 0 && totalAmazonListingCount > 0){
-        return "    {\n" +
-                "      \"timePeriod\": \"" + timePeriod +
-                "\",\n      \"totalListingCount\": " + totalListingCount +
-                ",\n      \"totalEbayListingCount\": " + totalEbayListingCount +
-                ",\n      \"totalEbayListingPrice\": " + totalEbayListingPrice +
-                ",\n      \"averageEbayListingPrice\":  "+(totalEbayListingPrice.divide(new BigDecimal(totalEbayListingCount.toString()), RoundingMode.CEILING))+
-                ",\n      \"totalAmazonListingCount\": " + totalAmazonListingCount +
-                ",\n      \"totalAmazonListingPrice\": " + totalAmazonListingPrice +
-                ",\n      \"averageAmazonListingPrice\": "+(totalAmazonListingPrice.divide(new BigDecimal(totalAmazonListingCount.toString()), RoundingMode.CEILING))+
-                ",\n      \"bestListerEmailAddress\": \"" + getBestListerEmailAddress() +"\"\n    }";
-        }else if(totalEbayListingCount > 0){
-            return "    {\n" +
-                    "      \"timePeriod\": \"" + timePeriod +
-                    "\",\n      \"totalListingCount\": " + totalListingCount +
-                    ",\n      \"totalEbayListingCount\": " + totalEbayListingCount +
-                    ",\n      \"totalEbayListingPrice\": " + totalEbayListingPrice +
-                    ",\n      \"averageEbayListingPrice\":  "+(totalEbayListingPrice.divide(new BigDecimal(totalEbayListingCount.toString()), RoundingMode.CEILING))+
-                    ",\n      \"totalAmazonListingCount\": " + totalAmazonListingCount +
-                    ",\n      \"totalAmazonListingPrice\": " + totalAmazonListingPrice +
-                    ",\n      \"averageAmazonListingPrice\": "+"0"+
-                    ",\n      \"bestListerEmailAddress\": \"" + getBestListerEmailAddress() +"\"\n    }";
-        }else if(totalAmazonListingCount > 0){
-            return "    {\n" +
-                    "      \"timePeriod\": \"" + timePeriod +
-                    "\",\n      \"totalListingCount\": " + totalListingCount +
-                    ",\n      \"totalEbayListingCount\": " + totalEbayListingCount +
-                    ",\n      \"totalEbayListingPrice\": " + totalEbayListingPrice +
-                    ",\n      \"averageEbayListingPrice\":  "+"0"+
-                    ",\n      \"totalAmazonListingCount\": " + totalAmazonListingCount +
-                    ",\n      \"totalAmazonListingPrice\": " + totalAmazonListingPrice +
-                    ",\n      \"averageAmazonListingPrice\": "+(totalAmazonListingPrice.divide(new BigDecimal(totalAmazonListingCount.toString()), RoundingMode.CEILING))+
-                    ",\n      \"bestListerEmailAddress\": \"" + getBestListerEmailAddress() +"\"\n    }";
-        }else {
-            return "    {\n" +
-                    "      \"timePeriod\": \"" + timePeriod +
-                    "\",\n      \"totalListingCount\": " + totalListingCount +
-                    ",\n      \"totalEbayListingCount\": " + totalEbayListingCount +
-                    ",\n      \"totalEbayListingPrice\": " + totalEbayListingPrice +
-                    ",\n      \"averageEbayListingPrice\":  "+"0"+
-                    ",\n      \"totalAmazonListingCount\": " + totalAmazonListingCount +
-                    ",\n      \"totalAmazonListingPrice\": " + totalAmazonListingPrice +
-                    ",\n      \"averageAmazonListingPrice\": "+"0"+
-                    ",\n      \"bestListerEmailAddress\": " + "null" +"\n    }";
-        }
+        /*StringBuilder stringBuilder = new StringBuilder("");
 
+        stringBuilder.append("\n      {\n");
+        stringBuilder.append("\",\n          \"totalListingCount\": " + totalListingCount);
+        stringBuilder.append(",\n        \"totalEbayListingPrice\": " + totalEbayListingPrice);
+        if(totalEbayListingCount > 0){
+                stringBuilder.append(",\n          \"averageEbayListingPrice\":  "+(totalEbayListingPrice.divide(new BigDecimal(totalEbayListingCount.toString()), RoundingMode.CEILING)));
+        }else {stringBuilder.append(",\n        \"averageEbayListingPrice\":  "+totalEbayListingPrice);}
+        stringBuilder.append(",\n        \"totalAmazonListingCount\": " + totalAmazonListingCount);
+        stringBuilder.append(",\n        \"totalAmazonListingPrice\": " + totalAmazonListingPrice);
+        if(totalAmazonListingCount > 0){
+            stringBuilder.append(",\n        \"averageAmazonListingPrice\": "+(totalAmazonListingPrice.divide(new BigDecimal(totalAmazonListingCount.toString()), RoundingMode.CEILING)));
+        }else{stringBuilder.append(",\n        \"averageAmazonListingPrice\": "+totalAmazonListingCount);}
+        stringBuilder.append(",\n        \"bestListerEmailAddress\": \"" + getBestListerEmailAddress() +"\"\n      }");
+        String returnString = stringBuilder.toString();
+        return returnString;*/
+
+        if(totalEbayListingCount> 0 && totalAmazonListingCount > 0){
+        return "\n        {\n" +
+                "         \"currency\": \"" + currency +
+                "\",\n         \"totalListingCount\": " + totalListingCount +
+                ",\n         \"totalEbayListingCount\": " + totalEbayListingCount +
+                ",\n          \"totalEbayListingPrice\": " + totalEbayListingPrice +
+                ",\n          \"averageEbayListingPrice\":  "+(totalEbayListingPrice.divide(new BigDecimal(totalEbayListingCount.toString()), RoundingMode.CEILING))+
+                ",\n          \"totalAmazonListingCount\": " + totalAmazonListingCount +
+                ",\n          \"totalAmazonListingPrice\": " + totalAmazonListingPrice +
+                ",\n          \"averageAmazonListingPrice\": "+(totalAmazonListingPrice.divide(new BigDecimal(totalAmazonListingCount.toString()), RoundingMode.CEILING))+
+                ",\n          \"bestListerEmailAddress\": \"" + getBestListerEmailAddress() +"\"\n        }";
+        }else if(totalEbayListingCount > 0){
+            return "\n        {\n" +
+                    "          \"currency\": \"" + currency +
+                    "\",\n          \"totalListingCount\": " + totalListingCount +
+                    ",\n          \"totalEbayListingCount\": " + totalEbayListingCount +
+                    ",\n          \"totalEbayListingPrice\": " + totalEbayListingPrice +
+                    ",\n          \"averageEbayListingPrice\":  "+(totalEbayListingPrice.divide(new BigDecimal(totalEbayListingCount.toString()), RoundingMode.CEILING))+
+                    ",\n          \"totalAmazonListingCount\": " + totalAmazonListingCount +
+                    ",\n          \"totalAmazonListingPrice\": " + totalAmazonListingPrice +
+                    ",\n          \"averageAmazonListingPrice\": "+"0"+
+                    ",\n          \"bestListerEmailAddress\": \"" + getBestListerEmailAddress() +"\"\n        }";
+        }else if(totalAmazonListingCount > 0){
+            return "\n        {\n" +
+                    "          \"currency\": \"" + currency +
+                    "\",\n          \"totalListingCount\": " + totalListingCount +
+                    ",\n          \"totalEbayListingCount\": " + totalEbayListingCount +
+                    ",\n          \"totalEbayListingPrice\": " + totalEbayListingPrice +
+                    ",\n          \"averageEbayListingPrice\":  "+"0"+
+                    ",\n          \"totalAmazonListingCount\": " + totalAmazonListingCount +
+                    ",\n          \"totalAmazonListingPrice\": " + totalAmazonListingPrice +
+                    ",\n          \"averageAmazonListingPrice\": "+(totalAmazonListingPrice.divide(new BigDecimal(totalAmazonListingCount.toString()), RoundingMode.CEILING))+
+                    ",\n          \"bestListerEmailAddress\": \"" + getBestListerEmailAddress() +"\"\n        }";
+        }else {
+            return "\n        {\n" +
+                    "          \"currency\": \"" + currency +
+                    "\",\n          \"totalListingCount\": " + totalListingCount +
+                    ",\n          \"totalEbayListingCount\": " + totalEbayListingCount +
+                    ",\n          \"totalEbayListingPrice\": " + totalEbayListingPrice +
+                    ",\n          \"averageEbayListingPrice\":  "+"0"+
+                    ",\n          \"totalAmazonListingCount\": " + totalAmazonListingCount +
+                    ",\n          \"totalAmazonListingPrice\": " + totalAmazonListingPrice +
+                    ",\n          \"averageAmazonListingPrice\": "+"0"+
+                    ",\n          \"bestListerEmailAddress\": " + "null" +"\n        }";
+        }
     }
 
     //GETTERS AND SETTERS
+    public String getCurrency() {
+        return currency;
+    }
 
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
 
     public Integer getTotalListingCount() {
         return totalListingCount;
@@ -126,13 +145,11 @@ public class Report {
     }
 
     public void putListerEmailAddress(String listerEmailAddress){
-
         Integer j = listerEmailAddresses.get(listerEmailAddress);
         listerEmailAddresses.put(listerEmailAddress, (j == null) ? 1 : j + 1);
     }
 
     //METHODS
-
     public String getBestListerEmailAddress(){
         Integer maxValueInMap = (Collections.max(listerEmailAddresses.values()));
         for(Map.Entry<String, Integer> entry : listerEmailAddresses.entrySet()){
@@ -140,6 +157,6 @@ public class Report {
                 return entry.getKey();
             }
         }
-        return "error";
+        return null;
     }
 }

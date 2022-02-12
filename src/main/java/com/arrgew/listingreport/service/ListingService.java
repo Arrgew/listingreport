@@ -12,13 +12,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import javax.transaction.Transactional;
 import java.util.LinkedList;
 import java.util.List;
 
 
 @Service
-@Transactional
 public class ListingService {
     private final ListingRepository listingRepository;
     private final LocationRepository locationRepository;
@@ -37,7 +35,6 @@ public class ListingService {
     }
 
     public void loadListings(){
-        System.out.println(listingUrl);
         RestTemplate template = new RestTemplate();
         System.out.println("Getting listings from the api...");
         ResponseEntity<List<Listing>> response = template.exchange(listingUrl,

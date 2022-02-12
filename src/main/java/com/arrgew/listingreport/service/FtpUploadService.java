@@ -19,6 +19,8 @@ public class FtpUploadService {
     private String ftpPort;
     @Value("${ftpHost}")
     private String ftpHost;
+    @Value("${ftpDir}")
+    private String ftpDir;
 
 
     public void upload(File file){
@@ -29,7 +31,8 @@ public class FtpUploadService {
             client.connect(ftpHost,Integer.parseInt(ftpPort));
             client.login(ftpUsername, ftpPassword);
             InputStream inputStream = new FileInputStream("report.json");
-            client.storeFile("report.json",inputStream);
+            client.storeFile(ftpDir+"report.json",inputStream);
+            System.out.println("report.json uploaded to the ftp server");
             inputStream.close();
             client.logout();
 

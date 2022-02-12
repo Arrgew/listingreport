@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class ListingStatus {
@@ -56,12 +57,25 @@ public class ListingStatus {
     }
 
     //TOSTRING
-
-
     @Override
     public String toString() {
         return "{id=" + id +
                 ", statusName='" + statusName + '\'' +
                 '}';
+    }
+
+    //EQUALS AND HASHCODE
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ListingStatus)) return false;
+        ListingStatus that = (ListingStatus) o;
+        return Objects.equals(id, that.id) && Objects.equals(statusName, that.statusName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, statusName);
     }
 }

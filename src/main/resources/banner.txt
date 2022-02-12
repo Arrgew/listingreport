@@ -1,0 +1,10 @@
+,--.    ,--.           ,--.   ,--.                                                                    ,--.
+|  |    `--'  ,---.  ,-'  '-. `--' ,--,--,   ,---.  ,-----. ,--.--.  ,---.   ,---.   ,---.  ,--.--. ,-'  '-.
+|  |    ,--. (  .-'  '-.  .-' ,--. |      \ | .-. | '-----' |  .--' | .-. : | .-. | | .-. | |  .--' '-.  .-'
+|  '--. |  | .-'  `)   |  |   |  | |  ||  | ' '-' '         |  |    \   --. | '-' ' ' '-' ' |  |      |  |
+`-----' `--' `----'    `--'   `--' `--''--' .`-  /          `--'     `----' |  |-'   `---'  `--'      `--'
+                                            `---'                           `--'
+ :: Spring Boot ::                (v2.5.4)
+ You can load the data into the database using the "load" command.
+ You can create a report and upload it to the ftp server using the "create-report" command.
+ For Spring shell's built in commands use "help".

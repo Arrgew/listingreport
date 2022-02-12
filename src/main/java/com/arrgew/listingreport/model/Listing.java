@@ -34,7 +34,7 @@ public class Listing {
     @JsonProperty("description")
     private String description;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "location_id")
     @JsonIgnore
     private Location location;
@@ -62,7 +62,7 @@ public class Listing {
     @NotNull
     private Integer quantity;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "listing_status_id")
     @JsonIgnore
     private ListingStatus listingStatus;
@@ -72,7 +72,7 @@ public class Listing {
     @JsonInclude
     private Integer listingStatusId;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "marketplace_id")
     @JsonIgnore
     private Marketplace marketplace;
@@ -92,7 +92,6 @@ public class Listing {
     @Column(name = "owner_email_address")
     @Email
     @NotNull
-    @NotBlank(message = "Name is mandatory")
     private String ownerEmailAddress;
 
     //CONSTRUCTOR
@@ -114,8 +113,6 @@ public class Listing {
         this.uploadTime = uploadTime;
         this.ownerEmailAddress = ownerEmailAddress;
     }
-
-
     //GETTERS AND SETTERS
 
     public UUID getId() {
@@ -230,20 +227,19 @@ public class Listing {
         this.ownerEmailAddress = ownerEmailAddress;
     }
 
-
     //HASHCODE & EQUALS
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Listing)) return false;
         Listing listing = (Listing) o;
-        return id.equals(listing.id) && title.equals(listing.title) && description.equals(listing.description) && location.getId().equals(listing.location.getId()) && listingPrice.equals(listing.listingPrice) && currency.equals(listing.currency) && quantity.equals(listing.quantity) && listingStatus.getId().equals(listing.listingStatus.getId()) && marketplace.getId().equals(listing.marketplace.getId()) && Objects.equals(uploadTime, listing.uploadTime) && ownerEmailAddress.equals(listing.ownerEmailAddress);
+        return id.equals(listing.id) && title.equals(listing.title) && description.equals(listing.description) && location.equals(listing.location) && listingPrice.equals(listing.listingPrice) && currency.equals(listing.currency) && quantity.equals(listing.quantity) && listingStatus.equals(listing.listingStatus) && marketplace.equals(listing.marketplace) && Objects.equals(uploadTime, listing.uploadTime) && ownerEmailAddress.equals(listing.ownerEmailAddress);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, description, listingPrice, currency, quantity, uploadTime, ownerEmailAddress);
+        return Objects.hash(id, title, description, location, listingPrice, currency, quantity, listingStatus, marketplace, uploadTime, ownerEmailAddress);
     }
 
     //TOSTRING

@@ -1,12 +1,10 @@
 package com.arrgew.listingreport.service;
 
 import com.arrgew.listingreport.model.Listing;
-import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.regex.Pattern;
 
-@Service
 public class ListingValidatorService{
     public ListingValidatorService(){}
 
@@ -35,7 +33,6 @@ public class ListingValidatorService{
         }else if(listing.getOwnerEmailAddress() == null || !emailPattern.matcher(listing.getOwnerEmailAddress()).matches()){
             return listing.getId().toString()+","+listing.getMarketplace().getName()+",owner_email_address";
         }
-
         return "valid";
     }
 }
