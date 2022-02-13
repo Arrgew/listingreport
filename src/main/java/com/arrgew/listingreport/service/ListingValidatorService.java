@@ -18,7 +18,7 @@ public class ListingValidatorService{
             return listing.getId().toString()+","+listing.getMarketplace().getName()+",title";
         }else if(listing.getDescription() == null){
             return listing.getId().toString()+","+listing.getMarketplace().getName()+",description";
-        }else if(listing.getLocation() == null){
+        }else if(listing.getLocation() == null || listing.getLocation().getId() == null){
             return listing.getId().toString()+","+listing.getMarketplace().getName()+",location";
         }else if(listing.getListingPrice() == null || !(listing.getListingPrice().compareTo(BigDecimal.ZERO) > 0)){
             return listing.getId().toString()+","+listing.getMarketplace().getName()+",listing_price";
@@ -26,9 +26,9 @@ public class ListingValidatorService{
             return listing.getId().toString()+","+listing.getMarketplace().getName()+",currency";
         }else if(listing.getQuantity() == null || listing.getQuantity() <= 0){
             return listing.getId().toString()+","+listing.getMarketplace().getName()+",quantity";
-        }else if(listing.getListingStatus() == null ){
+        }else if(listing.getListingStatus() == null || listing.getListingStatus().getId() == null){
             return listing.getId().toString()+","+listing.getMarketplace().getName()+",listing_status";
-        }else if(listing.getMarketplace() == null ){
+        }else if(listing.getMarketplace() == null || listing.getMarketplace().getId() == null){
             return listing.getId().toString()+","+listing.getMarketplace().getName()+",marketplace";
         }else if(listing.getOwnerEmailAddress() == null || !emailPattern.matcher(listing.getOwnerEmailAddress()).matches()){
             return listing.getId().toString()+","+listing.getMarketplace().getName()+",owner_email_address";

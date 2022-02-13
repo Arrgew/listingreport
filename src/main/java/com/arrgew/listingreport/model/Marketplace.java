@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class Marketplace {
@@ -62,5 +63,20 @@ public class Marketplace {
         return "{id=" + id +
                 ", name='" + name + '\'' +
                 '}';
+    }
+
+    //HASH AND EQUALS
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Marketplace)) return false;
+        Marketplace that = (Marketplace) o;
+        return Objects.equals(id, that.id) && Objects.equals(name, that.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
     }
 }

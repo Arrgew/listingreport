@@ -11,11 +11,12 @@ import static org.junit.jupiter.api.Assertions.*;
 class ListingStatusRepositoryTest {
     @Autowired
     ListingStatusRepository listingStatusRepository;
+
     @Test
-    void getAllListingStatuses(){
+    void getListingStatusesById(){
         //give
         ListingStatus active = new ListingStatus(1,"ACTIVE");
-        ListingStatus inActive = new ListingStatus(2,"NOT ACTIVE");
+        ListingStatus inActive = new ListingStatus(2,"INACTIVE");
         this.listingStatusRepository.save(active);
         this.listingStatusRepository.save(inActive);
         //then
@@ -24,5 +25,7 @@ class ListingStatusRepositoryTest {
         //when
         assertEquals(active,activeFromDb);
         assertEquals(inActive,inActiveFromDb);
+        assertNotEquals(active,inActiveFromDb);
+        assertNotEquals(inActive,activeFromDb);
     }
 }

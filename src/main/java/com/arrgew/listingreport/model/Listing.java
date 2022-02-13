@@ -103,7 +103,7 @@ public class Listing {
         this.description = description;
         this.locationId = locationId;
         this.location = new Location();
-        this.listingPrice = new BigDecimal(listingPrice);
+        if(listingPrice != null){this.listingPrice = new BigDecimal(listingPrice);}else{this.listingPrice = null;}
         this.currency = currency;
         this.quantity = quantity;
         this.listingStatusId = listingStatusId;

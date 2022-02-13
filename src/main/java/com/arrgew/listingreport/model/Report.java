@@ -31,28 +31,11 @@ public class Report {
     //TO STRING
     @Override
     public String toString() {
-        /*StringBuilder stringBuilder = new StringBuilder("");
-
-        stringBuilder.append("\n      {\n");
-        stringBuilder.append("\",\n          \"totalListingCount\": " + totalListingCount);
-        stringBuilder.append(",\n        \"totalEbayListingPrice\": " + totalEbayListingPrice);
-        if(totalEbayListingCount > 0){
-                stringBuilder.append(",\n          \"averageEbayListingPrice\":  "+(totalEbayListingPrice.divide(new BigDecimal(totalEbayListingCount.toString()), RoundingMode.CEILING)));
-        }else {stringBuilder.append(",\n        \"averageEbayListingPrice\":  "+totalEbayListingPrice);}
-        stringBuilder.append(",\n        \"totalAmazonListingCount\": " + totalAmazonListingCount);
-        stringBuilder.append(",\n        \"totalAmazonListingPrice\": " + totalAmazonListingPrice);
-        if(totalAmazonListingCount > 0){
-            stringBuilder.append(",\n        \"averageAmazonListingPrice\": "+(totalAmazonListingPrice.divide(new BigDecimal(totalAmazonListingCount.toString()), RoundingMode.CEILING)));
-        }else{stringBuilder.append(",\n        \"averageAmazonListingPrice\": "+totalAmazonListingCount);}
-        stringBuilder.append(",\n        \"bestListerEmailAddress\": \"" + getBestListerEmailAddress() +"\"\n      }");
-        String returnString = stringBuilder.toString();
-        return returnString;*/
-
         if(totalEbayListingCount> 0 && totalAmazonListingCount > 0){
         return "\n        {\n" +
-                "         \"currency\": \"" + currency +
-                "\",\n         \"totalListingCount\": " + totalListingCount +
-                ",\n         \"totalEbayListingCount\": " + totalEbayListingCount +
+                "          \"currency\": \"" + currency +
+                "\",\n          \"totalListingCount\": " + totalListingCount +
+                ",\n          \"totalEbayListingCount\": " + totalEbayListingCount +
                 ",\n          \"totalEbayListingPrice\": " + totalEbayListingPrice +
                 ",\n          \"averageEbayListingPrice\":  "+(totalEbayListingPrice.divide(new BigDecimal(totalEbayListingCount.toString()), RoundingMode.CEILING))+
                 ",\n          \"totalAmazonListingCount\": " + totalAmazonListingCount +

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Entity
@@ -143,5 +144,20 @@ public class Location {
                 ", town='" + town + '\'' +
                 ", postalCode='" + postalCode + '\'' +
                 '}';
+    }
+
+    //HASHCODE AND EQUALS
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Location)) return false;
+        Location location = (Location) o;
+        return Objects.equals(id, location.id) && Objects.equals(managerName, location.managerName) && Objects.equals(phone, location.phone) && Objects.equals(addressPrimary, location.addressPrimary) && Objects.equals(addressSecondary, location.addressSecondary) && Objects.equals(country, location.country) && Objects.equals(town, location.town) && Objects.equals(postalCode, location.postalCode);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, managerName, phone, addressPrimary, addressSecondary, country, town, postalCode);
     }
 }
